@@ -1,0 +1,61 @@
+{% extends 'includes/base.html' %}
+
+{% block title %}Add Message{% endblock %}
+
+{% block content %}
+
+<body class="bg-gradient-primary">
+
+<div class="container">
+
+    <div class="card o-hidden border-0 shadow-lg my-5">
+        <div class="card-body p-0">
+            <!-- Nested Row within Card Body -->
+            <div class="row">
+                <div class="col-lg-5 d-none d-lg-block bg-register-image"></div>
+                <div class="col-lg-7">
+                    <div class="p-5">
+                        <div class="text-center">
+                            <h1 class="h4 text-gray-900 mb-4">{{ form_title }}</h1>
+                        </div>
+                        <form method="POST" enctype="multipart/form-data">
+                            {% csrf_token %}
+                            <!-- Общие ошибки формы -->
+                            {% if form.non_field_errors %}
+                            <div class="form-error">{{ form.non_field_errors }}</div>
+                            {% endif %}
+
+                            <!-- Отображение полей формы -->
+                            {% for f in form %}
+                            <div class="form-group">
+                                <label class="form-label" for="{{ f.id_for_label }}">{{ f.label }}</label>
+                                {{ f }}
+                                <div class="form-error">{{ f.errors }}</div>
+                            </div>
+                            {% endfor %}
+
+                            <!-- Кнопка регистрации -->
+                            <button type="submit" class="btn btn-primary btn-user btn-block">
+                                {{ submit_button_text }}
+                            </button>
+                            <a href="{% url 'MessageManagement:messages_list' %}" class="btn btn-secondary btn-block">
+                                <i class="fas fa-arrow-left"></i> Назад
+                            </a>
+                        </form>
+                        <hr>
+                        <div class="text-center">
+                            <a class="small" href="{% url 'MessageManagement:messages_list' %}">К списку сообщений</a>
+                        </div>
+                        <div class="text-center">
+                            <a class="small" href="{% url 'mailings:home' %}">На главную</a>
+                        </div>
+                    </div>
+                </div>
+            </div>
+        </div>
+    </div>
+
+</div>
+
+</body>
+{% endblock %}

@@ -1,0 +1,47 @@
+{% extends 'includes/base.html' %}
+
+{% block title %}{% if object %}Редактирование рассылки{% else %}Добавление рассылки{% endif %}{% endblock %}
+
+{% block content %}
+<div class="container">
+    <h1 class="mt-4 mb-4 text-center">
+        {% if object %}Редактирование рассылки{% else %}Добавление рассылки{% endif %}
+    </h1>
+    <div class="row justify-content-center">
+        <div class="col-lg-8">
+            <div class="card shadow">
+                <div class="card-body">
+                    <form method="post">
+                        {% csrf_token %}
+                        <!-- Общие ошибки формы -->
+                        {% if form.non_field_errors %}
+                        <div class="alert alert-danger" role="alert">
+                            {{ form.non_field_errors }}
+                        </div>
+                        {% endif %}
+
+                        <!-- Поля формы -->
+                        {% for f in form %}
+                        <div class="form-group">
+                            <label class="form-label" for="{{ f.id_for_label }}">{{ f.label }}</label>
+                            {{ f }}
+                            <div class="form-error">{{ f.errors }}</div>
+                        </div>
+                        {% endfor %}
+
+                        <!-- Кнопки -->
+                        <div class="d-grid gap-2">
+                            <button type="submit" class="btn btn-primary">
+                                {% if object %}Сохранить{% else %}Добавить{% endif %}
+                            </button>
+                            <a href="{% url 'mailings:mailings_list' %}" class="btn btn-outline-secondary">
+                                <i class="fas fa-arrow-left"></i> Назад
+                            </a>
+                        </div>
+                    </form>
+                </div>
+            </div>
+        </div>
+    </div>
+</div>
+{% endblock %}

@@ -1,0 +1,49 @@
+{% extends 'includes/base.html' %}
+
+{% block title %}Детальная информация{% endblock %}
+
+{% block content %}
+<div class="container">
+    <h1 class="mt-4 mb-4 text-center">Детальная информация о получателе</h1>
+    <div class="row justify-content-center">
+        <div class="col-lg-6 col-md-8">
+            <div class="card shadow">
+                <div class="card-body">
+                    <!-- Заголовок карточки -->
+                    <div class="text-center mb-4">
+                        <h3 class="card-title">{{ recipient.email }}</h3>
+                    </div>
+
+                    <!-- Информация о получателе -->
+                    <div class="mb-4">
+                        <p class="card-text">
+                            <strong><i class="fas fa-user"></i> Имя:</strong> {{ recipient.first_name }}
+                        </p>
+                        <p class="card-text">
+                            <strong><i class="fas fa-user"></i> Фамилия:</strong> {{ recipient.last_name }}
+                        </p>
+                        <p class="card-text">
+                            <strong><i class="fas fa-comment"></i> Комментарий:</strong> {{ recipient.comment }}
+                        </p>
+                    </div>
+
+                    <!-- Кнопки управления -->
+                    <div class="d-grid gap-2">
+<!--                        <a class="btn btn-primary" href="{% url 'recipients:recipient_update' recipient.pk %}" role="button">-->
+<!--                            <i class="fas fa-edit"></i> Изменить-->
+<!--                        </a>-->
+                        {% if recipient.owner == user %}
+                        <a class="btn btn-danger" href="{% url 'recipients:recipient_delete' recipient.pk %}" role="button">
+                            <i class="fas fa-trash-alt"></i> Удалить
+                        </a>
+                        {% endif %}
+                        <a class="mt-2 btn btn-outline-secondary" href="{% url 'recipients:recipients_list' %}" role="button">
+                            <i class="fas fa-arrow-left"></i> Назад к списку
+                        </a>
+                    </div>
+                </div>
+            </div>
+        </div>
+    </div>
+</div>
+{% endblock %}
