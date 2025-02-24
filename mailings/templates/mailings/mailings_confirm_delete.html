@@ -1,0 +1,78 @@
+{% extends 'includes/base.html' %}
+
+{% block title %}Удаление рассылки{% endblock %}
+
+{% block content %}
+{% if user == object.owner %}
+<body class="bg-gradient-primary">
+
+<div class="container">
+    <div class="card o-hidden border-0 shadow-lg my-5">
+        <div class="card-body p-0">
+            <!-- Вложенная строка внутри тела карточки -->
+            <div class="row">
+                <!-- Левая колонка с изображением -->
+                <div class="col-lg-5 d-none d-lg-block bg-register-image"></div>
+                <!-- Правая колонка с формой -->
+                <div class="col-lg-7">
+                    <div class="p-5">
+                        <!-- Заголовок -->
+                        <div class="text-center">
+                            <h1 class="h4 text-gray-900 mb-4">Вы действительно хотите удалить рассылку?</h1>
+                            <p class="lead text-gray-800">Рассылка на тему: <strong>{{ object.message }}</strong></p>
+                        </div>
+
+                        <!-- Форма удаления -->
+                        <form method="POST">
+                            {% csrf_token %}
+                            <!-- Общие ошибки формы -->
+                            {% if form.non_field_errors %}
+                                <div class="alert alert-danger" role="alert">
+                                    {{ form.non_field_errors }}
+                                </div>
+                            {% endif %}
+
+                            <!-- Кнопки действий -->
+                            <div class="d-grid gap-2">
+                                <button type="submit" class="btn btn-danger btn-block">
+                                    <i class="fas fa-trash-alt"></i> Удалить
+                                </button>
+                                <a href="{% url 'MessageManagement:messages_list' %}" class="btn btn-secondary btn-block">
+                                    <i class="fas fa-arrow-left"></i> Назад
+                                </a>
+                            </div>
+                        </form>
+
+                        <!-- Дополнительные ссылки -->
+                        <hr>
+                        <div class="text-center">
+                            <a class="small" href="{% url 'mailings:mailings_list' %}">
+                                <i class="fas fa-list"></i> К списку рассылок
+                            </a>
+                        </div>
+                        <div class="text-center">
+                            <a class="small" href="{% url 'mailings:home' %}">
+                                <i class="fas fa-home"></i> На главную
+                            </a>
+                        </div>
+                    </div>
+                </div>
+            </div>
+        </div>
+    </div>
+</div>
+
+</body>
+{% else %}
+<div class="container">
+    <div class="alert alert-danger mt-5" role="alert">
+        <h4 class="alert-heading">Доступ запрещен!</h4>
+        <p>У вас нет прав для удаления этой рассылок.</p>
+        <hr>
+        <a href="{% url 'mailings:mailings_list' %}" class="btn btn-secondary">
+            <i class="fas fa-arrow-left"></i> Назад к списку рассылок
+        </a>
+    </div>
+</div>
+{% endif %}
+{% endblock %}

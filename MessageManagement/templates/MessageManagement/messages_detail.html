@@ -1,0 +1,46 @@
+{% extends 'includes/base.html' %}
+
+{% block title %}Детальная информация{% endblock %}
+
+{% block content %}
+<div class="container">
+    <h1 class="mt-4 mb-4 text-center">Детальная информация о сообщении</h1>
+    <div class="row justify-content-center">
+        <div class="col-lg-6 col-md-8">
+            <div class="card shadow">
+                <div class="card-body">
+                    <!-- Заголовок карточки -->
+                    <div class="text-center mb-4">
+                        <h3 class="card-title">{{ message.message_subject }}</h3>
+                    </div>
+
+                    <!-- Информация о получателе -->
+                    <div class="mb-4">
+                        <p class="card-text">
+                            <strong><i class="fas fa-user"></i> Текс сообщения:</strong> {{ message.message_body }}
+                        </p>
+                        <p class="card-text">
+                            <strong><i class="fas fa-user"></i> Владелец:</strong> {{ message.owner }}
+                        </p>
+                    </div>
+
+                    <!-- Кнопки управления -->
+                    <div class="d-grid gap-2">
+<!--                        <a class="btn btn-primary" href="{% url 'MessageManagement:message_update' message.pk %}" role="button">-->
+<!--                            <i class="fas fa-edit"></i> Изменить-->
+<!--                        </a>-->
+                        {% if message.owner == user %}
+                        <a class="btn btn-danger" href="{% url 'MessageManagement:message_delete' message.pk %}" role="button">
+                            <i class="fas fa-trash-alt"></i> Удалить
+                        </a>
+                        {% endif %}
+                        <a class="mt-2 btn btn-outline-secondary" href="{% url 'MessageManagement:messages_list' %}" role="button">
+                            <i class="fas fa-arrow-left"></i> Назад к списку
+                        </a>
+                    </div>
+                </div>
+            </div>
+        </div>
+    </div>
+</div>
+{% endblock %}

@@ -1,0 +1,73 @@
+{% extends 'includes/base.html' %}
+
+{% block title %}Детальная информация о рассылке{% endblock %}
+
+{% block content %}
+<div class="container">
+    <h1 class="mt-4 mb-4 text-center">Детальная информация о рассылке</h1>
+    <div class="row justify-content-center">
+        <div class="col-lg-8">
+            <div class="card shadow">
+                <div class="card-body">
+                    <!-- Заголовок карточки -->
+                    <div class="text-center mb-4">
+                        <h3 class="card-title">
+                            <i class="fas fa-envelope"></i> Статус: {{ mailing.mailing_status }}
+                        </h3>
+                    </div>
+
+                    <!-- Информация о рассылке -->
+                    <div class="mb-4">
+                        <p class="card-text">
+                            <strong><i class="fas fa-user-tag"></i> Владелец:</strong> {{ mailing.owner }}
+                        </p>
+                        <p class="card-text">
+                            <strong><i class="fas fa-users"></i> Получатели:</strong>
+                            {% for recipient in mailing.recipients.all %}
+                            {{ recipient.email }}{% if not forloop.last %}, {% endif %}
+                            {% endfor %}
+                        </p>
+                        <p class="card-text">
+                            <strong><i class="fas fa-clock"></i> Начало отправки:</strong>
+                            {{ mailing.start_sent_mailing }}
+                        </p>
+                        <p class="card-text">
+                            <strong><i class="fas fa-clock"></i> Окончание отправки:</strong>
+                            {{ mailing.stop_sent_mailing }}
+                        </p>
+                        <p class="card-text">
+                            <strong><i class="fas fa-comment"></i> Сообщение:</strong> {{ mailing.message.subject }}
+                        </p>
+                    </div>
+
+                    <!-- Кнопки управления -->
+                    <div class="d-grid gap-2">
+                        <a href="{% url 'mailings:mailings_list' %}" class="btn btn-outline-secondary">
+                            <i class="fas fa-arrow-left"></i> Назад
+                        </a>
+                        {% if mailing.owner == user %}
+                        <a href="{% url 'mailings:mailing_update' mailing.pk %}" class="btn btn-success">
+                            <i class="fas fa-edit"></i> Редактировать
+                        </a>
+                        <a class="btn btn-danger" href="{% url 'mailings:mailing_delete' mailing.pk %}"
+                           role="button">
+                            <i class="fas fa-trash-alt"></i> Удалить
+                        </a>
+                        {% endif %}
+                        {% if perms.mailings.can_disabling_mailings and mailing.mailing_status != "completed" %}
+                        <a href="{% url 'mailings:disable_mailing' mailing.pk %}" class="btn btn-danger">
+                            <i class="fas fa-stop"></i> Отключить
+                        </a>
+                        {% endif %}
+                        {% if mailing.mailing_status != "launched" %}
+                        <a href="{% url 'mailings:start_mailing' mailing.pk %}" class="btn btn-primary">
+                            <i class="fas fa-play"></i> Запустить рассылку
+                        </a>
+                        {% endif %}
+                    </div>
+                </div>
+            </div>
+        </div>
+    </div>
+</div>
+{% endblock %}
