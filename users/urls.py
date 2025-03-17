@@ -3,6 +3,7 @@ from django.contrib.auth.views import (LoginView, LogoutView, PasswordResetCompl
 from django.urls import path, reverse_lazy
 
 from users.apps import UsersConfig
+from .forms import CustomLoginForm
 
 from .services import block_user, unblock_user
 from .views import UserEditProfile, UserManagerListView, UserRegisterView, email_verification
@@ -10,7 +11,7 @@ from .views import UserEditProfile, UserManagerListView, UserRegisterView, email
 app_name = UsersConfig.name
 
 urlpatterns = [
-    path("login/", LoginView.as_view(template_name="login.html"), name="login"),
+    path("login/", LoginView.as_view(template_name="login.html", form_class=CustomLoginForm), name="login"),
     path("logout/", LogoutView.as_view(), name="logout"),
     path("register/", UserRegisterView.as_view(), name="register"),
     path("email-confirm/<str:token>/", email_verification, name="email_confirm"),
