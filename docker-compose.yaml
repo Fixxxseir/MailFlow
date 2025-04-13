@@ -4,7 +4,7 @@ services:
     command: sh -c "python manage.py collectstatic --noinput && gunicorn config.wsgi:application --bind 0.0.0.0:8000"
     volumes:
       - .:/app
-      - static_volume:/app/static
+      - static_volume:/app/staticfiles
     ports:
       - "8000:8000"
     env_file:
@@ -27,6 +27,8 @@ services:
       - static_volume:/app/staticfiles
     depends_on:
       - web
+    networks:
+      - backend
 
   db:
     image: postgres:16.0
@@ -70,6 +72,5 @@ networks:
 volumes:
   postgres_data:
   static_volume:
-  redis_volume:
   redis_data:
 
