@@ -1,0 +1,142 @@
+<!-- Sidebar -->
+<ul class="navbar-nav bg-gradient-primary sidebar sidebar-dark accordion" id="accordionSidebar">
+
+    <!-- Sidebar - Brand -->
+    <a class="sidebar-brand d-flex align-items-center justify-content-center" href="{% url 'mailings:home' %}">
+        <div class="sidebar-brand-icon rotate-n-15">
+            <i class="fas fa-laugh-wink"></i>
+        </div>
+        <div class="sidebar-brand-text mx-3">Mail Flow <sup>:)</sup></div>
+    </a>
+
+    <!-- Divider -->
+    <hr class="sidebar-divider my-0">
+
+    <!-- Nav Item - Dashboard -->
+    <li class="nav-item active">
+        <a class="nav-link" href="{% url 'mailings:home' %}">
+            <i class="fas fa-fw fa-tachometer-alt"></i>
+            <span>Панель управления</span>
+        </a>
+    </li>
+
+    <!-- СООБЩЕНИЯ/ПОЛУЧАТЕЛИ -->
+    <hr class="sidebar-divider">
+
+    <!-- Heading -->
+    <div class="sidebar-heading">
+        Interface
+    </div>
+
+    <!-- Получатели рассылки -->
+    <li class="nav-item">
+        <a class="nav-link collapsed" href="#" data-toggle="collapse" data-target="#collapseRecipients"
+           aria-expanded="true" aria-controls="collapseRecipients">
+            <i class="fas fa-fw fa-users"></i>
+            <span>Получатели рассылки</span>
+        </a>
+        <div id="collapseRecipients" class="collapse" aria-labelledby="headingRecipients" data-parent="#accordionSidebar">
+            <div class="bg-white py-2 collapse-inner rounded">
+                <h6 class="collapse-header">Действия:</h6>
+                <a class="collapse-item" href="{% url 'recipients:add_recipient' %}">Добавить получателя(ей)</a>
+                <a class="collapse-item" href="{% url 'recipients:recipients_list' %}">Список получателей</a>
+            </div>
+        </div>
+    </li>
+
+    <!-- Управление сообщениями -->
+    <li class="nav-item">
+        <a class="nav-link collapsed" href="#" data-toggle="collapse" data-target="#collapseMessages"
+           aria-expanded="true" aria-controls="collapseMessages">
+            <i class="fas fa-fw fa-wrench"></i>
+            <span>Управление сообщениями</span>
+        </a>
+        <div id="collapseMessages" class="collapse" aria-labelledby="headingMessages" data-parent="#accordionSidebar">
+            <div class="bg-white py-2 collapse-inner rounded">
+                <h6 class="collapse-header">Действия:</h6>
+                <a class="collapse-item" href="{% url 'MessageManagement:add_message' %}">Создать сообщение</a>
+                <a class="collapse-item" href="{% url 'MessageManagement:messages_list' %}">Список сообщений</a>
+            </div>
+        </div>
+    </li>
+
+    <!-- РАССЫЛКА/ПОПЫТКА -->
+    <hr class="sidebar-divider">
+
+    <!-- Heading -->
+    <div class="sidebar-heading">
+        Рассылка
+    </div>
+
+    <!-- Рассылка -->
+    <li class="nav-item">
+        <a class="nav-link collapsed" href="#" data-toggle="collapse" data-target="#collapseMailings"
+           aria-expanded="true" aria-controls="collapseMailings">
+            <i class="fas fa-fw fa-envelope"></i>
+            <span>Рассылка</span>
+        </a>
+        <div id="collapseMailings" class="collapse" aria-labelledby="headingMailings" data-parent="#accordionSidebar">
+            <div class="bg-white py-2 collapse-inner rounded">
+                <h6 class="collapse-header">Действия:</h6>
+                <a class="collapse-item" href="{% url 'mailings:add_mailing' %}">Новая рассылка</a>
+                <a class="collapse-item" href="{% url 'mailings:mailings_list' %}">Список рассылок</a>
+            </div>
+        </div>
+    </li>
+
+    <!-- Попытки рассылок -->
+    <li class="nav-item">
+        <a class="nav-link collapsed" href="#" data-toggle="collapse" data-target="#collapseMailingAttempts"
+           aria-expanded="true" aria-controls="collapseMailingAttempts">
+            <i class="fas fa-fw fa-share"></i>
+            <span>Попытки рассылок</span>
+        </a>
+        <div id="collapseMailingAttempts" class="collapse" aria-labelledby="headingMailingAttempts" data-parent="#accordionSidebar">
+            <div class="bg-white py-2 collapse-inner rounded">
+                <h6 class="collapse-header">Действия:</h6>
+                <a class="collapse-item" href="{% url 'mailings:mailings_attempt' %}">Список попыток</a>
+            </div>
+        </div>
+    </li>
+
+    <!-- МЕНЕДЖЕРЫ -->
+    {% if perms.users.can_blocking_service_users and perms.users.can_view_list_all_users %}
+        <hr class="sidebar-divider">
+
+        <div class="sidebar-heading">
+            Interface for managers
+        </div>
+
+        <!-- Управление пользователями -->
+        <li class="nav-item">
+            <a class="nav-link collapsed" href="#" data-toggle="collapse" data-target="#collapseManagers"
+               aria-expanded="true" aria-controls="collapseManagers">
+                <i class="fas fa-fw fa-users"></i>
+                <span>Управление</span>
+            </a>
+            <div id="collapseManagers" class="collapse" aria-labelledby="headingManagers" data-parent="#accordionSidebar">
+                <div class="bg-white py-2 collapse-inner rounded">
+                    <h6 class="collapse-header">Действия:</h6>
+                    <a class="collapse-item" href="{% url 'users:user_manager_list' %}">Список пользователей</a>
+                </div>
+            </div>
+        </li>
+    {% endif %}
+
+    <!-- Divider -->
+    <hr class="sidebar-divider d-none d-md-block">
+
+    <!-- Sidebar Toggler (Sidebar) -->
+    <div class="text-center d-none d-md-inline">
+        <button class="rounded-circle border-0" id="sidebarToggle"></button>
+    </div>
+
+    <!-- Sidebar Message -->
+    <div class="sidebar-card d-none d-lg-flex">
+        <img class="sidebar-card-illustration mb-2" src="/static/images/free-icon-github-4926625.png" alt="GitHub">
+        <p class="text-center mb-2"><strong>This is my GitHub</strong> I would be very grateful if you subscribe!</p>
+        <a class="btn btn-light btn-sm" href="https://github.com/Fixxxseir">Pick here</a>
+    </div>
+
+</ul>
+    <!-- End of Sidebar -->

@@ -1,0 +1,55 @@
+{% extends 'includes/base.html' %}
+
+{% block title %}Список получателей{% endblock %}
+
+{% block content %}
+<div class="container">
+    <h1 class="mt-4 mb-4 text-center">Список получателей</h1>
+    <div class="row">
+        {% for recipient in recipients %}
+        {% if recipient.owner == user or perms.recipients.can_view_all_recipients %}
+        <div class="col-xl-4 col-md-6 mb-4">
+            <div class="card shadow h-100">
+                <div class="card-body">
+                    <div class="d-flex flex-column h-100">
+                        <!-- Заголовок карточки -->
+                        <div class="d-flex justify-content-between align-items-center mb-3">
+                            <h3 class="card-title mb-0 text-truncate" title="{{ recipient.email }}">
+                                <i class="fas fa-envelope"></i> {{ recipient.email }}
+                            </h3>
+                        </div>
+
+                        <!-- Информация о получателе -->
+                        <div class="mb-3">
+                            <p class="card-text mb-1">
+                                <strong><i class="fas fa-user-tag"></i> Владелец:</strong> {{ recipient.owner }}
+                            </p>
+                        </div>
+
+                        <!-- Кнопки управления -->
+                        <div class="mt-auto">
+                            <div class="d-grid gap-2">
+                                <a class="btn btn-primary btn-sm"
+                                   href="{% url 'recipients:recipient_detail' recipient.pk %}" role="button">
+                                    <i class="fas fa-eye"></i> Подробнее
+                                </a>
+                                {% if recipient.owner == user %}
+                                <a class="mt-2 btn btn-success btn-sm"
+                                   href="{% url 'recipients:recipient_update' recipient.pk %}" role="button">
+                                    <i class="fas fa-edit"></i> Редактировать
+                                </a>
+                                {% endif %}
+                            </div>
+                        </div>
+                    </div>
+                </div>
+            </div>
+        </div>
+        {% endif %}
+        {% endfor %}
+    </div>
+
+    <!-- Включаем пагинацию -->
+    {% include 'includes/inc_paginator.html' %}
+</div>
+{% endblock %}
